@@ -1,0 +1,10 @@
+<nav #navigator>
+  <ul>
+    <li #list (mouseover)="activeLink(list)" *ngFor="let navItem of navItems">
+      <a href="#">
+        <span class="icon"><ion-icon [name]="navItem.icon"></ion-icon></span>
+        <span class="title">{{ navItem.title | titlecase }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

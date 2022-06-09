@@ -1,0 +1,93 @@
+<div #main class="main">
+  <div class="topbar">
+    <div class="toggle" (click)="toggleNav(main)">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+    <!-- search -->
+    <div class="search">
+      <label for="search-input">
+        <input
+          [(ngModel)]="orderTerm"
+          id="search-input"
+          type="text"
+          placeholder="Search Order"
+        />
+        <ion-icon name="search-outline"></ion-icon>
+      </label>
+    </div>
+    <!-- userImg -->
+    <div class="user">
+      <img src="/assets/img/user.jpg" alt="User Image" />
+    </div>
+  </div>
+
+  <!-- cards -->
+  <div class="cardBox">
+    <div class="card" *ngFor="let card of cards">
+      <div>
+        <div class="numbers">{{ card.numbers }}</div>
+        <div class="cardName">{{ card.name | titlecase }}</div>
+      </div>
+      <div class="iconBx">
+        <ion-icon [name]="card.icon"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- order details list -->
+  <div class="details">
+    <div class="recentOrders">
+      <div class="cardHeader">
+        <h2>Recent Orders</h2>
+        <a href="#" class="btn">View All</a>
+      </div>
+      <div *ngIf="orders | filterOrders: 'name':orderTerm as orders">
+        <table *ngIf="orders.length; else noOrders">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Price</td>
+              <td>Payment</td>
+              <td>Status</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders">
+              <td>{{ order.name | titlecase }}</td>
+              <td>{{ order.price | currency: "USD":"symbol":"1.0" }}</td>
+              <td>{{ order.payment | titlecase }}</td>
+              <td>
+                <span [class]="order.klass">{{
+                  order.status | titlecase
+                }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- New Customers -->
+    <div class="recentCustomers">
+      <div class="cardHeader">
+        <h2>Recent Customers</h2>
+      </div>
+      <table *ngIf="customers.length; else noCustomers">
+        <tr *ngFor="let customer of customers">
+          <td width="60px">
+            <div class="imgBx"><img [src]="customer.imgSrc" /></div>
+          </td>
+          <td>
+            <h4>
+              {{ customer.name | titlecase }}<br /><span>{{
+                customer.country | titlecase
+              }}</span>
+            </h4>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #noOrders><i>No Orders...</i></ng-template>
+<ng-template #noCustomers><i>No Customers...</i></ng-template>
